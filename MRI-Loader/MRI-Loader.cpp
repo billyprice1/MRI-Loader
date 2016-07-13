@@ -10,18 +10,27 @@
 
 bool injectDLL(std::string a, std::string b);
 
-int main() {
+int main(int argc, char *argv[]) {
 	std::cout << "MRI Patch created by DeNial" << std::endl;
 	std::cout << std::endl;
 
+	std::string EXEPath;
+	std::string DLLPath;
 	TCHAR pwd[MAX_PATH];
-	GetCurrentDirectory(MAX_PATH, pwd);
-	std::cout << pwd << std::endl;
 
-	std::string EXEPath = pwd;
-	EXEPath.append("\\MRI.exe");
-	std::string DLLPath = pwd;
+	GetCurrentDirectory(MAX_PATH, pwd);
+	EXEPath = pwd;
+	DLLPath = pwd;
 	DLLPath.append("\\MRI-Patch.dll");
+
+	if (argc == 2) {
+		EXEPath = argv[1];
+	} else {
+		std::cout << " To run a different program, just drag the desired program onto this" << std::endl;
+		std::cout << " and it will automatically run!" << std::endl;
+		std::cout << " To run via command line, use " << std::endl;
+		std::cout << "    MRI-Loader.exe \"{PATH-TO-FILE}\"" << std::endl;
+	}
 
 	if (!injectDLL(EXEPath, DLLPath)) {
 		std::cout << "Failed to load MRI patch." << std::endl;
